@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "a4eaa5fc-fd6c-4fe2-b7dc-1e89d433afee",
+		"name": "JIRA Operations",
+		"description": "# Introduction\nJIRA user management API\n\n# Overview\nIn this set of collection we have performed operations to create JIRA user and delete it\n\n# Authentication\nWe have used basic Authentication\n\n# Error Codes\nIt should be 201 for creating user\n404 after deleting the request\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"item": [
+				{
+					"name": "Create User for JIRA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0e95dfd7-e7a0-4a76-aba4-4b7c953b4e89",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"response = JSON.parse(responseBody)\r",
+									"pm.environment.set(\"key\", response.key);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "virendra.vala.31",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Virendra#123",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Alley1\",\r\n    \"password\": \"Alley1#123\",\r\n    \"emailAddress\": \"Alley1@gmail.com\",\r\n    \"displayName\": \"Veer of Atlassian\",\r\n    \"applicationKeys\": [\r\n        \"jira-core\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/rest/api/2/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"user"
+							]
+						},
+						"description": "> Adding user to JIRA\r\n> Verify response code"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Verify user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cc20f6b3-ad8c-4ee8-95f6-9e532cc3e68d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7d68a888-4b92-46bc-8ebd-2237e52746a5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "virendra.vala.31",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Virendra#123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/api/2/user?key={{key}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"user"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "virendra.vala.31",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Virendra#123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/api/2/user?key={{key}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"user"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify user deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "31e36a3e-43fb-4e30-86ba-c0e0519795a4",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "virendra.vala.31",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Virendra#123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/api/2/user?key={{key}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"user"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a2dc45f5-2914-431a-b898-46c0fd898593",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "071f261b-2c67-41da-bd83-d7672c9306a2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
